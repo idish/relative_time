@@ -69,11 +69,20 @@ class RelativeTime {
     final List<TimeUnit> sortedTimeUnits = timeUnits.toList(growable: false)
       ..sort(Enum.compareByIndex);
 
+    DateTime now = DateTime.now();
+    final differenceInDays = DateTime(time.year, time.month, time.day)
+        .difference(DateTime(now.year, now.month, now.day))
+        .inDays;
+
     late TimeUnit timeUnit;
     late int timeUnitDifference;
 
     for (timeUnit in sortedTimeUnits) {
       timeUnitDifference = timeUnit.difference(absDifference);
+
+      if (differenceInDays > timeUnitDifference) {
+        timeUnitDifference += 1;
+      }
 
       if (timeUnitDifference >= 1) {
         break;
